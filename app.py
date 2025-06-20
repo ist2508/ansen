@@ -71,7 +71,7 @@ with model_tab:
     st.subheader("📈 Naive Bayes (Multinomial)")
     if st.button("🔍 Jalankan Model Naive Bayes"):
         with st.spinner("Melatih dan mengevaluasi model..."):
-            accuracy, report, conf_matrix, result_df, prior_prob, cond_pos, cond_neg, cond_net, posterior = run_naive_bayes()
+            accuracy, report, conf_matrix, result_df, prior_prob, cond_pos, cond_neg, cond_net, posterior, df_posterior = run_naive_bayes()
             st.session_state.accuracy = accuracy
             st.session_state.report = report
             st.session_state.df_pred = result_df
@@ -80,6 +80,7 @@ with model_tab:
             st.session_state.cond_neg = cond_neg
             st.session_state.cond_net = cond_net
             st.session_state.posterior = posterior
+            st.session_state.df_posterior = df_posterior
             st.success(f"✅ Akurasi Model: {accuracy:.2f}")
 
     if all(k in st.session_state for k in ['prior_prob', 'cond_pos', 'cond_neg', 'cond_net', 'posterior']):
@@ -102,6 +103,9 @@ with model_tab:
 
             st.subheader("🔍 Probabilitas Posterior (Dokumen Uji Pertama)")
             st.write(st.session_state.posterior)
+
+            st.subheader("📌 Contoh Perhitungan Posterior untuk 5 Tweet Pertama")
+            st.dataframe(st.session_state.df_posterior.style.format(precision=6))
 
         with st.expander("📊 Laporan Evaluasi"):
             report_dict = classification_report(
