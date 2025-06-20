@@ -80,7 +80,6 @@ with model_tab:
             st.session_state.cond_neg = cond_neg
             st.session_state.cond_net = cond_net
             st.session_state.posterior = posterior
-            st.session_state.df_posterior = df_posterior
             st.success(f"✅ Akurasi Model: {accuracy:.2f}")
 
     if all(k in st.session_state for k in ['prior_prob', 'cond_pos', 'cond_neg', 'cond_net', 'posterior']):
@@ -103,9 +102,6 @@ with model_tab:
 
             st.subheader("🔍 Probabilitas Posterior (Dokumen Uji Pertama)")
             st.write(st.session_state.posterior)
-
-            st.subheader("📌 Contoh Perhitungan Posterior untuk 5 Tweet Pertama")
-            st.dataframe(st.session_state.df_posterior.style.format(precision=6))
 
         with st.expander("📊 Laporan Evaluasi"):
             report_dict = classification_report(
